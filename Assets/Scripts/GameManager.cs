@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public TMP_Dropdown winnerSelect;
     private int roundWinner;
     public int[] occupiedFields;
+    private bool gameEnded = false;
 
     public TextMeshProUGUI jokerP1;
     public TextMeshProUGUI jokerP2;
@@ -135,27 +136,30 @@ public class GameManager : MonoBehaviour
 
         WinnerCheck();
 
-        if (activePlayer == 0)
-
-        { activePlayer = 1; }
-
-        else
-
-        { activePlayer = 0; }
-
-        switch (activePlayer)
+        if (gameEnded != true)
 
         {
-            case 0:
-                messageText.text = ($"{MainManager.playerName[0]}, select your field.");
-                break;
+            if (activePlayer == 0)
+
+            { activePlayer = 1; }
+
+            else
+
+            { activePlayer = 0; }
+
+            switch (activePlayer)
+
+            {
+                case 0:
+                    messageText.text = ($"{MainManager.playerName[0]}, select your field.");
+                    break;
 
 
-            case 1:
-                messageText.text = ($"{MainManager.playerName[1]}, select your field.");
-                break;
+                case 1:
+                    messageText.text = ($"{MainManager.playerName[1]}, select your field.");
+                    break;
+            }
         }
-
 
     }
 
@@ -192,15 +196,50 @@ public class GameManager : MonoBehaviour
             if (solutions[i] == 3)
             {
                 Debug.Log("Player 1 is the winner!");
+                P1Finish();
+                gameEnded = true;
             }
 
             else if (solutions[i] == 6)
 
             {
                 Debug.Log("Player 2 is the winner!");
+                P2Finish();
+                gameEnded = true;
             }
 
-         }
+        }
     }
+
+
+    void P1Finish()
+
+
+    {
+        messageText.text = ($"Tic Tac Toy! {MainManager.playerName[0]} wins the match.");
+
+        for (int i = 0; i < fields.Length; i++)
+
+        {
+            fields[i].interactable = false;
+        }
+
+
+    }
+
+    void P2Finish()
+
+    {
+        messageText.text = ($"Tic Tac Toy! {MainManager.playerName[1]} wins the match.");
+
+        for (int i = 0; i < fields.Length; i++)
+
+        {
+            fields[i].interactable = false;
+        }
+
+
+    }
+
 
 }

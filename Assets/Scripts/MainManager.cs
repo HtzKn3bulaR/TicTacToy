@@ -11,6 +11,8 @@ public class MainManager : MonoBehaviour
     public static int roundsWonP1 = 0;
     public static int roundsWonP2 = 0;
 
+    public static string carClass = "Re-Volt";
+    public static string[] cars = { "Car2", "Car2", "Car3", "Car4" };
     
     private void Awake()
     {
