@@ -2401,6 +2401,7 @@ MonoBehaviour:
   preRacePanel: {fileID: 2044832391}
   postRacePanel: {fileID: 174204110}
   winnerSelect: {fileID: 113581443}
+  occupiedFields: 9cffffff9cffffff9cffffff9cffffff9cffffff9cffffff9cffffff9cffffff9cffffff
   jokerP1: {fileID: 1834054242}
   jokerP2: {fileID: 1243841599}
 --- !u!4 &592647357

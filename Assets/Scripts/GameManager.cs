@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     private int pendingField;
     public TMP_Dropdown winnerSelect;
     private int roundWinner;
+    public int[] occupiedFields;
 
     public TextMeshProUGUI jokerP1;
     public TextMeshProUGUI jokerP2;
@@ -29,14 +30,16 @@ public class GameManager : MonoBehaviour
     {
         switch (activePlayer)
 
-        { case 0:
+        {
+            case 0:
                 messageText.text = ($"{MainManager.playerName[0]}, select your field.");
-                    break; }
+                break;
+        }
 
         FieldSetup();
 
         NamesSetup();
-        
+
     }
 
     public void FieldSetup()
@@ -49,6 +52,13 @@ public class GameManager : MonoBehaviour
             fields[i].interactable = true;
             fields[i].GetComponent<Image>().sprite = null;
         }
+
+        for (int i = 0; i < occupiedFields.Length; i++)
+
+        {
+            occupiedFields[i] = -100;
+        }
+
     }
 
     private void NamesSetup()
@@ -61,7 +71,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void ButtonClicked(int fieldNumber)
@@ -72,7 +82,7 @@ public class GameManager : MonoBehaviour
         //fields[fieldNumber].GetComponentInChildren<TMP_Text>().SetText("");
         nextTrack.text = trackSelected;
         pendingField = fieldNumber;
-        }
+    }
 
     public void PostRaceProcedure()
 
@@ -90,7 +100,7 @@ public class GameManager : MonoBehaviour
         roundWinner = winnerSelect.value;
         Debug.Log("Winner is " + roundWinner);
 
-         }
+    }
 
     public void WinnerGetsPoint()
 
@@ -98,13 +108,13 @@ public class GameManager : MonoBehaviour
         switch (roundWinner)
         {
             case 0:
-                MainManager.roundsWonP1 ++;
-                Debug.Log("P1 has won " + MainManager.roundsWonP1);
+                MainManager.roundsWonP1++;
+                //Debug.Log("P1 has won " + MainManager.roundsWonP1);
                 break;
 
             case 1:
-                MainManager.roundsWonP2 ++;
-                Debug.Log("P2 has won " + MainManager.roundsWonP2);
+                MainManager.roundsWonP2++;
+                //Debug.Log("P2 has won " + MainManager.roundsWonP2);
                 break;
         }
     }
@@ -117,7 +127,13 @@ public class GameManager : MonoBehaviour
 
         fields[pendingField].image.sprite = playerSymbols[roundWinner];
 
+        occupiedFields[pendingField] = roundWinner + 1;
+
         WinnerGetsPoint();
+
+        CheckScore();
+
+        WinnerCheck();
 
         if (activePlayer == 0)
 
@@ -133,15 +149,13 @@ public class GameManager : MonoBehaviour
             case 0:
                 messageText.text = ($"{MainManager.playerName[0]}, select your field.");
                 break;
-        
-            
+
+
             case 1:
                 messageText.text = ($"{MainManager.playerName[1]}, select your field.");
-            break;
+                break;
         }
 
-
-        CheckScore();
 
     }
 
@@ -158,4 +172,35 @@ public class GameManager : MonoBehaviour
             jokerP2.gameObject.SetActive(true);
         }
     }
+
+    public void WinnerCheck()
+
+    {
+        int s1 = occupiedFields[0] + occupiedFields[1] + occupiedFields[2];
+        int s2 = occupiedFields[3] + occupiedFields[4] + occupiedFields[5];
+        int s3 = occupiedFields[6] + occupiedFields[7] + occupiedFields[8];
+        int s4 = occupiedFields[0] + occupiedFields[3] + occupiedFields[6];
+        int s5 = occupiedFields[1] + occupiedFields[4] + occupiedFields[7];
+        int s6 = occupiedFields[2] + occupiedFields[5] + occupiedFields[8];
+        int s7 = occupiedFields[0] + occupiedFields[4] + occupiedFields[8];
+        int s8 = occupiedFields[6] + occupiedFields[4] + occupiedFields[2];
+
+        var solutions = new int[] { s1, s2, s3, s4, s5, s6, s7, s8 };
+
+        for (int i = 0; i < solutions.Length; i++)
+        {
+            if (solutions[i] == 3)
+            {
+                Debug.Log("Player 1 is the winner!");
+            }
+
+            else if (solutions[i] == 6)
+
+            {
+                Debug.Log("Player 2 is the winner!");
+            }
+
+         }
+    }
+
 }
