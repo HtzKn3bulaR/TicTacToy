@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 public class CarSelector : MonoBehaviour
 {
     public TMP_Dropdown classMenu;
+    [SerializeField] Button helpClose;
+    [SerializeField] Button helpOpen;
     public TextMeshProUGUI carClassText;
     public TextMeshProUGUI car1Text;
     public TextMeshProUGUI car2Text;
@@ -15,6 +17,7 @@ public class CarSelector : MonoBehaviour
     public TextMeshProUGUI car4Text;
     public GameObject carClassMenu;
     public GameObject carTable;
+    [SerializeField] GameObject helpScreen;
     private int classSelected;
     public Button goToNameSelectScreen;
     List<string> activeList;
@@ -171,6 +174,25 @@ public class CarSelector : MonoBehaviour
 
         goToNameSelectScreen.gameObject.SetActive(true);
     }
+
+    public void CloseHelp()
+
+    {
+        helpScreen.gameObject.SetActive(false);
+        helpOpen.gameObject.SetActive(true);
+
+    }
+
+    public void OpenHelp()
+    {
+        helpScreen.gameObject.SetActive(true);
+        helpOpen.gameObject.SetActive(false);
+
+    }
+        
+
+    
+
 
     public void GoToNextScreen()
 

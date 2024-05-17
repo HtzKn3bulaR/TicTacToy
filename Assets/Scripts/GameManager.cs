@@ -346,9 +346,23 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
 
     {
-        mainManager = GameObject.Find("MainManager");
-        Destroy(mainManager);
-        SceneManager.LoadScene(0);
+        MainManager.playerName[0] = "Player 1";
+        MainManager.playerName[1] = "Player 2";
+
+    MainManager.roundsWonP1 = 0;
+    MainManager.roundsWonP2 = 0;
+
+    MainManager.carClass = "Re-Volt";
+    
+    MainManager.carCIsActive = false;
+    MainManager.carDIsActive = false;
+
+    MainManager.p1HasJoker = false;
+    MainManager.p2HasJoker = false;
+
+    MainManager.xJokerWasUsed = false;
+    MainManager.oJokerWasUsed = false;
+    SceneManager.LoadScene(0);
     }
 
     public void QuitGame()
