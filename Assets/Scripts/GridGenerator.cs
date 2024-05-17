@@ -10,6 +10,21 @@ public class GridGenerator : MonoBehaviour
     [SerializeField] private Sprite starSymbol;
     public TextMeshProUGUI[] fieldText;
 
+    [SerializeField] TextMeshProUGUI carClass;
+    [SerializeField] TextMeshProUGUI carA;
+    [SerializeField] TextMeshProUGUI carB;
+    [SerializeField] TextMeshProUGUI carC;
+    [SerializeField] TextMeshProUGUI carD;
+
+    [SerializeField] Button jokerX;
+    [SerializeField] Button jokerO;
+
+
+    [SerializeField] GameObject carPanel;
+    [SerializeField] Button carMenuToggleButton;
+    [SerializeField] Button panelClose;
+
+
     int firstNumber;
     int secondNumber;
 
@@ -55,7 +70,7 @@ public class GridGenerator : MonoBehaviour
     {
         var uniqueRandomList = GetUniqueRandomElements(trackList, 9);
 
-        
+
         gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         for (int i = 0; i < uniqueRandomList.Count; i++)
@@ -67,6 +82,8 @@ public class GridGenerator : MonoBehaviour
         SetStar();
 
         SetColors();
+
+        SetupCarTable();
     }
 
 
@@ -115,6 +132,111 @@ public class GridGenerator : MonoBehaviour
 
     }
 
+    void SetupCarTable()
+
+    {
+        carClass.text = MainManager.carClass;
+        carA.text = MainManager.cars[0];
+        carA.gameObject.SetActive(true);
+        carB.text = MainManager.cars[1];
+        carB.gameObject.SetActive(true);
+
+    }
+
+    public void ShowCarPanel()
+
+    {
+        carPanel.SetActive(true);
+        carMenuToggleButton.gameObject.SetActive(false);
+
+        CheckJokerStatus();
+    }
+
+    public void HideCarPanel()
+
+    {
+        carPanel.SetActive(false);
+        carMenuToggleButton.gameObject.SetActive(true);
+
+    }
+
+    void CheckJokerStatus()
+    {
+        if (MainManager.p1HasJoker)
+        {
+            jokerX.gameObject.SetActive(true);
+        }
+
+        if (MainManager.p2HasJoker)
+        {
+            jokerO.gameObject.SetActive(true);
+
+        }
+
+    }
+
+    public void UnlockNextCarByX()
+    {
+        if (MainManager.carCIsActive == false)
+
+        {
+            MainManager.carCIsActive = true;
+            carC.text = MainManager.cars[2];
+            carC.gameObject.SetActive(true);
+            MainManager.p1HasJoker = false;
+            MainManager.xJokerWasUsed = true;
+            gameManagerScript.jokerP1.gameObject.SetActive(false);
+            jokerX.gameObject.SetActive(false);
+            return;
+        }
+
+        if (MainManager.carCIsActive == true)
+
+        {
+            MainManager.carDIsActive = true;
+            carD.text = MainManager.cars[3];
+            carD.gameObject.SetActive(true);
+            MainManager.p1HasJoker = false;
+            MainManager.xJokerWasUsed = true;
+            gameManagerScript.jokerP1.gameObject.SetActive(false);
+            jokerX.gameObject.SetActive(false);
+            return;
+
+        }
+
+    }
+
+    public void UnlockNextCarByO()
+    {
+        if (MainManager.carCIsActive == false)
+
+        {
+            MainManager.carCIsActive = true;
+            carC.text = MainManager.cars[2];
+            carC.gameObject.SetActive(true);
+            MainManager.p2HasJoker = false;
+            MainManager.oJokerWasUsed = true;
+            gameManagerScript.jokerP2.gameObject.SetActive(false);
+            jokerO.gameObject.SetActive(false);
+            return;
+        }
+
+        if (MainManager.carCIsActive == true)
+
+        {
+            MainManager.carDIsActive = true;
+            carD.text = MainManager.cars[3];
+            carD.gameObject.SetActive(true);
+            MainManager.p2HasJoker = false;
+            MainManager.oJokerWasUsed = true;
+            gameManagerScript.jokerP2.gameObject.SetActive(false);
+            jokerO.gameObject.SetActive(false);
+            return;
+
+        }
+
+
+    }
 
 
 }

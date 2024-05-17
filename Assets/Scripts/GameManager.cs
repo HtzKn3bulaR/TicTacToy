@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public class GameManager : MonoBehaviour
@@ -23,12 +24,25 @@ public class GameManager : MonoBehaviour
     public int[] occupiedFields;
     private bool gameEnded = false;
 
+    public AudioClip fieldWin;
+    public AudioClip matchStart;
+
+    private GameObject audioManager;
+    private GameObject mainManager;
+
+    private AudioSource gameplayAudio;
+
+    [SerializeField] Button quit;
+    [SerializeField] Button rematch;
+ 
     public TextMeshProUGUI jokerP1;
     public TextMeshProUGUI jokerP2;
 
     // Start is called before the first frame update
     void Start()
     {
+        
+
         switch (activePlayer)
 
         {
@@ -40,6 +54,20 @@ public class GameManager : MonoBehaviour
         FieldSetup();
 
         NamesSetup();
+
+        StopThemeAudio();
+
+
+    }
+
+    void StopThemeAudio()
+
+    {
+        audioManager = GameObject.Find("AudioManager");
+        Destroy(audioManager);
+
+        gameplayAudio = GetComponent<AudioSource>();
+        gameplayAudio.PlayOneShot(matchStart);
 
     }
 
@@ -130,6 +158,8 @@ public class GameManager : MonoBehaviour
 
         occupiedFields[pendingField] = roundWinner + 1;
 
+        FieldAcquiredSound();
+
         WinnerGetsPoint();
 
         CheckScore();
@@ -166,15 +196,48 @@ public class GameManager : MonoBehaviour
     public void CheckScore()
 
     {
-        if (MainManager.roundsWonP1 >= 2)
+        if (MainManager.roundsWonP1 >= 2 && MainManager.xJokerWasUsed == false)
         {
             jokerP1.gameObject.SetActive(true);
+            MainManager.p1HasJoker = true;
         }
 
-        if (MainManager.roundsWonP2 >= 2)
+        else if (MainManager.roundsWonP1 >= 4 && MainManager.xJokerWasUsed == true)
+
+        {
+            jokerP1.gameObject.SetActive(true);
+            MainManager.p1HasJoker = true;
+        }
+
+        if (MainManager.roundsWonP2 >= 2 && MainManager.oJokerWasUsed == false)
         {
             jokerP2.gameObject.SetActive(true);
+            MainManager.p2HasJoker = true;
         }
+
+        else if (MainManager.roundsWonP2 >= 4 && MainManager.oJokerWasUsed == true)
+
+        {
+            jokerP2.gameObject.SetActive(true);
+            MainManager.p2HasJoker = true;
+        }
+    }
+
+    void PlayTheme()
+
+    {
+        gameplayAudio = GetComponent<AudioSource>();
+        gameplayAudio.Play();
+
+
+    }
+
+    void FieldAcquiredSound()
+
+    {
+        gameplayAudio = GetComponent<AudioSource>();
+        gameplayAudio.PlayOneShot(fieldWin);
+
     }
 
     public void WinnerCheck()
@@ -207,6 +270,34 @@ public class GameManager : MonoBehaviour
                 P2Finish();
                 gameEnded = true;
             }
+                               
+            
+        }
+
+        if (gameEnded != true)
+
+        { CheckForDraw(); }
+
+    }
+
+    void CheckForDraw()
+
+    {
+        int sum = 0;
+
+        for (int i = 0; i < occupiedFields.Length; i++)
+
+        { sum += occupiedFields[i]; }
+
+        if (sum > -50)
+
+        {
+            gameEnded = true;
+            messageText.text = ($"Stalemate. Click below for Rematch or Quit.");
+
+            PlayTheme();
+            quit.gameObject.SetActive(true);
+            rematch.gameObject.SetActive(true);
 
         }
     }
@@ -222,9 +313,14 @@ public class GameManager : MonoBehaviour
 
         {
             fields[i].interactable = false;
+            if (occupiedFields[i] == -100)
+            { fields[i].gameObject.SetActive(false); }
         }
 
+        quit.gameObject.SetActive(true);
+        rematch.gameObject.SetActive(true);
 
+        PlayTheme();
     }
 
     void P2Finish()
@@ -236,9 +332,30 @@ public class GameManager : MonoBehaviour
 
         {
             fields[i].interactable = false;
+            if (occupiedFields[i] == -100)
+            { fields[i].gameObject.SetActive(false); }
         }
 
+        quit.gameObject.SetActive(true);
+        rematch.gameObject.SetActive(true);
 
+        PlayTheme();
+
+    }
+
+    public void RestartGame()
+
+    {
+        mainManager = GameObject.Find("MainManager");
+        Destroy(mainManager);
+        SceneManager.LoadScene(0);
+    }
+
+    public void QuitGame()
+
+    {
+
+        Application.Quit();
     }
 
 

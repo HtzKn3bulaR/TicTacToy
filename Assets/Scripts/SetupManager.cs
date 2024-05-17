@@ -12,7 +12,7 @@ public class SetupManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI playerNames;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         nameInputPrompt.text = "Player 1, please enter your name.";
                         
@@ -55,6 +55,6 @@ public class SetupManager : MonoBehaviour
     void StartNewGame()
 
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
 }

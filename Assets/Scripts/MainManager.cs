@@ -12,7 +12,16 @@ public class MainManager : MonoBehaviour
     public static int roundsWonP2 = 0;
 
     public static string carClass = "Re-Volt";
-    public static string[] cars = { "Car2", "Car2", "Car3", "Car4" };
+    public static string[] cars = { "Car1", "Car2", "Car3", "Car4" };
+
+    public static bool carCIsActive = false;
+    public static bool carDIsActive = false;
+
+    public static bool p1HasJoker = false;
+    public static bool p2HasJoker = false;
+
+    public static bool xJokerWasUsed = false;
+    public static bool oJokerWasUsed = false;
     
     private void Awake()
     {
