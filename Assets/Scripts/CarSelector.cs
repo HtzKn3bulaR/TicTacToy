@@ -20,6 +20,7 @@ public class CarSelector : MonoBehaviour
     [SerializeField] GameObject helpScreen;
     private int classSelected;
     public Button goToNameSelectScreen;
+    [SerializeField] Button carClassConfirm;
     List<string> activeList;
 
     [SerializeField] string[] carClasses = { "Rookie", "Amateur", "Advanced", "Semi-Pro", "Pro", "Super-Pro" };
@@ -173,6 +174,7 @@ public class CarSelector : MonoBehaviour
         car2Text.text = MainManager.cars[1];
 
         goToNameSelectScreen.gameObject.SetActive(true);
+        carClassConfirm.gameObject.SetActive(false);
     }
 
     public void CloseHelp()
@@ -189,8 +191,14 @@ public class CarSelector : MonoBehaviour
         helpOpen.gameObject.SetActive(false);
 
     }
-        
 
+           
+    public void BackToStart()
+
+    {
+        SceneManager.LoadScene(0);
+
+    }
     
 
 
