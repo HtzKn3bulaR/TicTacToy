@@ -35,13 +35,13 @@ public class GridGenerator : MonoBehaviour
         "Museum 1","Toy World Aquatica: Redux","Ghost Town 1","Rooftops 1","Rooftops","Castle 1","HMS Invincible Redux","Aspenside",
         "Ranch","Airport","Fairground 1","Port Limano 2","StadVolt","Toytanic 2","Casino RV","Supermarket 1","Biohazard Factory","Toys In The Hood 2",
         "Toy World Mayhem","Smashride Circuit","RV Temple","Meltdown","Petro Volt","Botanical Garden ","Mysterious Toy-Volt Factory 1","Snowland 1","Home 2",
-        "Subway 2","Mysterious Toy-Volt Factory 2","School's Out 2","Moon Dawn","Radioactive Garden","Toy World 1","Holiday Camp California Edition","ToySoldierz",
-        "Santorini","Kadish Sprint","The Great Silence","Spa-Volt 1","Lunar","Skating Toys Redux","Museum EX","Library","Sakura","Wildland","Hospital 2","Museum 3",
-        "Home 1","Rooftop Chase Redux","Hospital 1","Game Room 2","Venice","Quake!","Mid-sea Island","Metro-Volt","urbanX","Toytanic 1","Industry","Snowy River","Toy World 3",
-        "Game Room 1","Botanical Garden EX","Helios","Subway","Paper Town 1","Route-77","Castle 2","Urban Sprint 1","Wonderful Skylands 1","Hull Breach 3000","Fairground 2",
-        "Supermarket 2","White Rose Chapel","Grisville","Spaceship","RC Stadium 2","Images Of Giza: Redux","Toy World 2","Toys in The Hood 1","The Bunker","Spa-Volt 2",
-        "Medieval Redux","Port Limano 1","SBX Alpine","Jailhouse Rock","Ghost Town 2","Museum 2","Shoppe","Re-Ville","Cliffside","POD: Roc","High Rollers","Cliffside Court",
-        "Floating World","Synthwave","Battered Mansion 2","Desolate District 1","Downtown 1","Downtown 2","Port Limano EX"
+        "Subway 2","School's Out 2","Moon Dawn","Radioactive Garden","Toy World 1","Holiday Camp California Edition","ToySoldierz",
+        "Santorini","Kadish Sprint","The Great Silence","Spa-Volt 1","Lunar","Skating Toys Redux","Museum EX","Library","Sakura","Hospital 2","Museum 3",
+        "Home 1","Rooftop Chase Redux","Hospital 1","Game Room 2","Venice","Quake!","Metro-Volt","urbanX","Toytanic 1","Snowy River","Toy World 3",
+        "Game Room 1","Botanical Garden EX","Helios","Route-77","Castle 2","Urban Sprint 1","Wonderful Skylands 1","Fairground 2",
+        "Supermarket 2","White Rose Chapel","Grisville","Spaceship","Images Of Giza: Redux","Toy World 2","Toys in The Hood 1","The Bunker","Spa-Volt 2",
+        "Medieval Redux","Port Limano 1","SBX Alpine","Jailhouse Rock","Ghost Town 2","Museum 2","Desolate District 1","Downtown 1","Downtown 2","Port Limano EX","Elementary 1","Elementary 2","Genghis Kastle","Swan Street",
+        "Spring Visit","Aquarium 1","Frostpeak","Galaxy World 1","Galaxy World 2"
     };
 
     List<T> GetUniqueRandomElements<T>(List<T> inputList, int count)
