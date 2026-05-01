@@ -14,8 +14,10 @@ public class SetupManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        
+
         nameInputPrompt.text = "Player 1, please enter your name.";
-                        
+        
     }
 
     public void P1Assign()
@@ -55,6 +57,20 @@ public class SetupManager : MonoBehaviour
     void StartNewGame()
 
     {
-        SceneManager.LoadScene(2);
+
+        switch(MainManager.Instance.gameIsRemote)
+
+        {
+            case true:
+                SceneManager.LoadScene(4);
+
+            break;
+
+                case false:
+                SceneManager.LoadScene(3);
+                break;
+        }
+
+        
     }
 }

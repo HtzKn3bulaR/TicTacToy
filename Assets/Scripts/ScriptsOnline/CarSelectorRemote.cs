@@ -4,12 +4,14 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Unity.Netcode;
+using Unity.Collections;
 
-public class CarSelector : MonoBehaviour
+public class CarSelectorRemote : NetworkBehaviour
 {
+    public static CarSelectorRemote Instance;
+
     public TMP_Dropdown classMenu;
-    [SerializeField] Button helpClose;
-    [SerializeField] Button helpOpen;
     public TextMeshProUGUI carClassText;
     public TextMeshProUGUI car1Text;
     public TextMeshProUGUI car2Text;
@@ -17,11 +19,16 @@ public class CarSelector : MonoBehaviour
     public TextMeshProUGUI car4Text;
     public GameObject carClassMenu;
     public GameObject carTable;
-    [SerializeField] GameObject helpScreen;
     private int classSelected;
-    public Button goToNameSelectScreen;
     [SerializeField] Button carClassConfirm;
     List<string> activeList;
+
+    public NetworkVariable<FixedString32Bytes> className = new NetworkVariable<FixedString32Bytes>();
+
+    public NetworkVariable<FixedString32Bytes> nameCar1 = new NetworkVariable<FixedString32Bytes>();
+    public NetworkVariable<FixedString32Bytes> nameCar2 = new NetworkVariable<FixedString32Bytes>();
+    public NetworkVariable<FixedString32Bytes> nameCar3 = new NetworkVariable<FixedString32Bytes>();
+    public NetworkVariable<FixedString32Bytes> nameCar4 = new NetworkVariable<FixedString32Bytes>();
 
     [SerializeField] string[] carClasses = { "Rookie", "Amateur", "Advanced", "Semi-Pro", "Pro", "Super-Pro" };
 
@@ -107,23 +114,34 @@ public class CarSelector : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Instance = this;
+
+        NetworkManager.Singleton.OnClientConnectedCallback += Singleton_OnClientConnectedCallback;
         
+    }
+
+    private void Singleton_OnClientConnectedCallback(ulong obj)
+    {
+        if (NetworkManager.Singleton.LocalClientId == 1)
+        {
+            PopulateCarTable(2);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void ClassSelect()
 
     {
-        carClassMenu.SetActive(false);
         carTable.SetActive(true);
-        classSelected = (classMenu.value)-1;
+        classSelected = (classMenu.value) - 1;
         carClassText.text = carClasses[classSelected];
         MainManager.carClass = carClasses[classSelected];
+        className.Value = carClasses[classSelected];
 
     }
 
@@ -135,7 +153,7 @@ public class CarSelector : MonoBehaviour
 
         {
             case 0:
-                    activeList = rookieList;
+                activeList = rookieList;
                 break;
 
             case 1:
@@ -166,57 +184,64 @@ public class CarSelector : MonoBehaviour
 
         {
             MainManager.cars[i] = uniqueRandomList[i];
-                     
-                    }
+
+        }
+        
+        nameCar1.Value = MainManager.cars[0];
+        nameCar2.Value = MainManager.cars[1];
+        nameCar3.Value = MainManager.cars[2];
+        nameCar4.Value = MainManager.cars[3];
+        
+        PopulateCarTable(2);
+
+        carClassConfirm.gameObject.SetActive(true);
+    }
+
+    public void PopulateCarTable(int carsUnlocked)
+    {
+        MainManager.carClass = className.Value.ToString();
+        carClassText.text = className.Value.ToString();
 
         car1Text.gameObject.SetActive(true);
-        car1Text.text = MainManager.cars[0];
+        MainManager.cars[0] = nameCar1.Value.ToString();
+        car1Text.text = nameCar1.Value.ToString();
 
         car2Text.gameObject.SetActive(true);
-        car2Text.text = MainManager.cars[1];
+        MainManager.cars[1] = nameCar2.Value.ToString();
+        car2Text.text = nameCar2.Value.ToString();
 
-        goToNameSelectScreen.gameObject.SetActive(true);
-        carClassConfirm.gameObject.SetActive(false);
-    }
+        MainManager.cars[2] = nameCar3.Value.ToString();
+        MainManager.cars[3] = nameCar4.Value.ToString();
 
-    public void CloseHelp()
-
-    {
-        helpScreen.gameObject.SetActive(false);
-        helpOpen.gameObject.SetActive(true);
-
-    }
-
-    public void OpenHelp()
-    {
-        helpScreen.gameObject.SetActive(true);
-        helpOpen.gameObject.SetActive(false);
-
-    }
-
-           
-    public void BackToStart()
-
-    {
-        SceneManager.LoadScene(0);
-
-    }
-    
-
-
-    public void GoToNextScreen()
-
-    {
-        if(MainManager.Instance.gameIsRemote)
+        if (carsUnlocked > 2) 
         {
-            SceneManager.LoadScene(5);
+            car3Text.gameObject.SetActive(true);
+            car3Text.text = nameCar3.Value.ToString();
         }
-        else
-            SceneManager.LoadScene(2);
+
+        if (carsUnlocked > 3)
+        {
+            car4Text.gameObject.SetActive(true);
+            car4Text.text = nameCar4.Value.ToString();
+        }
 
     }
 
+    public void ConcludeCarSelection()
+    {
+        carTable.gameObject.SetActive(false);
+        carClassMenu.gameObject.SetActive(false);
+    }
 
+    public void HideCarPanel()
+    {
+        carTable.gameObject.SetActive(false);
+    }
+                 
 
-
+    public void CarSelectionHost()
+    {
+        carClassMenu.gameObject.SetActive(true);
+        
+    }
 }

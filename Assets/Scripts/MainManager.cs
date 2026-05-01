@@ -6,7 +6,10 @@ public class MainManager : MonoBehaviour
 {
     public static MainManager Instance;
 
+    public bool gameIsRemote = false;
+
     public static string[] playerName = { "Player 1", "Player 2" };
+    public static string multiplayerName = "";
 
     public static int roundsWonP1 = 0;
     public static int roundsWonP2 = 0;

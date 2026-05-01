@@ -6,12 +6,21 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/MenuScene.unity
+    guid: 963da464780c186498913c258b9012d5
+  - enabled: 1
     path: Assets/Scenes/CarSetupScreen.unity
     guid: fbdfa3b0b78298c42b011660023a8f87
   - enabled: 1
-    path: Assets/Scenes/TitleScreen.unity
+    path: Assets/Scenes/NameScreenLocal.unity
     guid: 6d7a2a0922730dc44a087cd559b20423
   - enabled: 1
     path: Assets/Scenes/MainScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/OnlineScene.unity
+    guid: 8ff97978230f82244b0144817ec8b158
+  - enabled: 1
+    path: Assets/Scenes/NameScreenRemote.unity
+    guid: b06fcc2555c3c6b479f99ff20d201e85
   m_configObjects: {}

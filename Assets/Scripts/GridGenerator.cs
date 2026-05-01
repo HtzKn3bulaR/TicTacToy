@@ -41,7 +41,7 @@ public class GridGenerator : MonoBehaviour
         "Game Room 1","Botanical Garden EX","Helios","Route-77","Castle 2","Urban Sprint 1","Wonderful Skylands 1","Fairground 2",
         "Supermarket 2","White Rose Chapel","Grisville","Spaceship","Images Of Giza: Redux","Toy World 2","Toys in The Hood 1","The Bunker","Spa-Volt 2",
         "Medieval Redux","Port Limano 1","SBX Alpine","Jailhouse Rock","Ghost Town 2","Museum 2","Desolate District 1","Downtown 1","Downtown 2","Port Limano EX","Elementary 1","Elementary 2","Genghis Kastle","Swan Street",
-        "Spring Visit","Aquarium 1","Frostpeak","Galaxy World 1","Galaxy World 2"
+        "Spring Visit","Aquarium 1","Frostpeak","Galaxy World 1","Galaxy World 2","Office 1","Radio Kootwijk","s4","Crystal caves"
     };
 
     List<T> GetUniqueRandomElements<T>(List<T> inputList, int count)
@@ -68,10 +68,13 @@ public class GridGenerator : MonoBehaviour
 
     void Start()
     {
+                
         var uniqueRandomList = GetUniqueRandomElements(trackList, 9);
 
 
-        gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
+        
+            gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
+        
 
         for (int i = 0; i < uniqueRandomList.Count; i++)
 
