@@ -11,6 +11,8 @@ using UnityEngine.UI;
 
 public class GridGeneratorRemote : NetworkBehaviour
 {
+    public static GridGeneratorRemote Instance;
+
     private GameManagerOnline gameManagerScript;
     [SerializeField] private Sprite starSymbol;
     public TextMeshProUGUI[] fieldText;
@@ -39,7 +41,7 @@ public class GridGeneratorRemote : NetworkBehaviour
     [SerializeField] Button carMenuToggleButton;
     [SerializeField] Button panelClose;
 
-    private NetworkVariable<int> carsUnlocked = new NetworkVariable<int>(2);
+    public NetworkVariable<int> carsUnlocked = new NetworkVariable<int>(2);
     
     private NetworkVariable<int> starField = new NetworkVariable<int>();
 
@@ -89,6 +91,8 @@ public class GridGeneratorRemote : NetworkBehaviour
 
     private void Awake()
     {
+       Instance = this;
+
        tracksThisGame = new NetworkList<FixedString32Bytes>();
     }
 
@@ -233,19 +237,26 @@ public class GridGeneratorRemote : NetworkBehaviour
     
     public void SetColors()
     {
+        for (int i = 0; i < gameManagerScript.fields.Length; i++)
+        {
+            gameManagerScript.fields[i].GetComponent<FieldTypeHandler>().SetFieldTypeRpc(FieldTypeHandler.FieldType.White);
+
+        }
+
+
         for (int i = 0; i < 3; i++)
         {
             if (i == 0)
             {
                 gameManagerScript.fields[rand.Value].GetComponentInChildren<TMP_Text>().color = new Color(1, 0, 0);
+                gameManagerScript.fields[rand.Value].GetComponent<FieldTypeHandler>().SetFieldTypeRpc(FieldTypeHandler.FieldType.Red);
                 
             }
             if (i == 1)
 
-            {
-                
+            {                
                 gameManagerScript.fields[rand2.Value].GetComponentInChildren<TMP_Text>().color = new Color(1, 0, 0);
-                
+                gameManagerScript.fields[rand2.Value].GetComponent<FieldTypeHandler>().SetFieldTypeRpc(FieldTypeHandler.FieldType.Red);
             }
 
             if (i == 2)
@@ -253,6 +264,7 @@ public class GridGeneratorRemote : NetworkBehaviour
             {
                 
                 gameManagerScript.fields[rand3.Value].GetComponentInChildren<TMP_Text>().color = new Color(1, 0, 0);
+                gameManagerScript.fields[rand3.Value].GetComponent<FieldTypeHandler>().SetFieldTypeRpc(FieldTypeHandler.FieldType.Red);
             }
 
 

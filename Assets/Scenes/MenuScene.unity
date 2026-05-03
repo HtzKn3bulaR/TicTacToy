@@ -3697,17 +3697,18 @@ MonoBehaviour:
   m_text: 'Rules:
 
 
-    The player whose turn it is may pick a field to conquer and
-    thereafter choose a car for the current race.  The available cars can be seen
-    by opening the car table via the button on the bottom left of the screen (Only
-    two randomly selected cars are available at the start of the game). Next, the
-    opponent picks their car and the race is played in Re-Volt/RVGL.
+    The starting player picks a field to conquer and thereafter
+    chooses a car for the current race.  The available cars can be seen by opening
+    the car table via the button on the bottom left of the screen. Only two randomly
+    selected cars are available at the start of the game. Next, the opponent picks
+    their car and the race is played in Re-Volt/RVGL.
 
 
-    There
-    are six white fields and three red fields. When a player selects a white field,
-    the opponent may not use the same car as the player this round. When a red field
-    is selected, both players can freely choose their cars from the car table.'
+    There are six white fields
+    and three red fields. When a player selects a white field, the opponents must
+    use different cars. When a red field is selected, both players can freely choose
+    their cars from the car table, and even pick a car that has already been taken
+    by the opponent.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: edd1e801fa7a5144682285bf9dc182db, type: 2}
   m_sharedMaterial: {fileID: 934093763233016171, guid: edd1e801fa7a5144682285bf9dc182db, type: 2}

@@ -12,6 +12,8 @@ using UnityEngine.UI;
 
 public class GameManagerOnline : NetworkBehaviour
 {
+    public static GameManagerOnline Instance;
+
     public TextMeshProUGUI messageText;
     public TextMeshProUGUI nextTrack;
     public TextMeshProUGUI[] fieldText;
@@ -55,7 +57,10 @@ public class GameManagerOnline : NetworkBehaviour
     public TextMeshProUGUI jokerP2;
 
     public event EventHandler<OnPlayerConnectedEventArgs> OnPlayerConnected;
-    
+
+    public event EventHandler<OnPlayerConnectedEventArgs> OnJokerAcquired;
+
+    public static event Action OnRoundConcluded;
     public static event Action OnFieldSelected;
         
 
@@ -72,10 +77,12 @@ public class GameManagerOnline : NetworkBehaviour
         Circle,
     }
 
-    private PlayerType localPlayerType;
+    public PlayerType localPlayerType;
 
     private void Awake()
     {
+
+        Instance = this;
         Debug.Log("Game Is Remote " + MainManager.Instance.gameIsRemote);
                     
     }
@@ -83,6 +90,8 @@ public class GameManagerOnline : NetworkBehaviour
 
     void Start()
     {
+
+        blockPanel.gameObject.SetActive(true);
         
         occupiedFields = new int[9];
 
@@ -311,6 +320,7 @@ public class GameManagerOnline : NetworkBehaviour
         SetFieldInactive(fields[pendingField]);
 
         ShowHostWinnerPanelRpc(pendingField);
+        blockPanel.SetActive(true);
 
     }
 
@@ -381,32 +391,55 @@ public class GameManagerOnline : NetworkBehaviour
 
     public void ConcludeRound()
 
-    {        
-        postRacePanel.SetActive(false);
-        
-        WinnerGetsPoint();
-
-        CheckScore(); 
-        
+    {                                        
         PassTurnRpc();             
 
-        WinnerCheck();
+        OnRoundConcluded?.Invoke();
+        Debug.Log("Conclude Round Event Invoked");
     }
 
     
     [Rpc(SendTo.ClientsAndHost)]
-    private void SetJokerRpc(PlayerType player)
+    public void SetJokerRpc(PlayerType player)
     {
         if (player == PlayerType.Cross)
         {
             jokerP1.gameObject.SetActive(true);
             MainManager.p1HasJoker = true;
+            
         }
 
         if (player == PlayerType.Circle)
         {
             jokerP2.gameObject.SetActive(true);
             MainManager.p2HasJoker = true;
+            
+        }
+
+        if (localPlayerType == player)
+        {
+            Debug.Log("Show Flash Active");
+            CarSelectionHandler.instance.ShowFlashActive();
+            blockPanel.SetActive(true);
+        }
+
+        else
+        {
+            Debug.Log("Show Flash Inactive");
+            CarSelectionHandler.instance.ShowFlashInactive();
+            blockPanel.SetActive(true);
+        }
+
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void ContinueAfterJokerDecisionRpc()
+    {
+        
+
+        if(activePlayer.Value == localPlayerType)
+        {
+            blockPanel.SetActive(false);
         }
     }
 
@@ -514,31 +547,47 @@ public class GameManagerOnline : NetworkBehaviour
     public void CheckScore()
 
     {
-        if (MainManager.roundsWonP1 >= 2 && MainManager.xJokerWasUsed == false)
+        postRacePanel.SetActive(false);
+
+        WinnerGetsPoint();
+
+        WinnerCheck();
+
+        if (GridGeneratorRemote.Instance.carsUnlocked.Value == 4)
         {
-            SetJokerRpc(PlayerType.Cross);            
+            ConcludeRound();
+            return;
+        }
+
+        else if (MainManager.roundsWonP1 >= 2 && MainManager.xJokerWasUsed == false)
+        {
+            SetJokerRpc(PlayerType.Cross);
+            
         }
 
         else if (MainManager.roundsWonP1 >= 4 && MainManager.xJokerWasUsed == true)
 
         {
             SetJokerRpc(PlayerType.Cross);
+            
         }
 
-        if (MainManager.roundsWonP2 >= 2 && MainManager.oJokerWasUsed == false)
+        else if (MainManager.roundsWonP2 >= 2 && MainManager.oJokerWasUsed == false)
         {
 
             SetJokerRpc(PlayerType.Circle);
+            
         }
 
         else if (MainManager.roundsWonP2 >= 4 && MainManager.oJokerWasUsed == true)
 
         {
             SetJokerRpc(PlayerType.Circle);
+           
         }
 
         else
-            { return; }
+            { ConcludeRound(); }
     }
 
     void PlayTheme()
