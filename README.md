@@ -42,9 +42,12 @@ Standalone Release Version 2.1.3 Beta
       
       
       With the RVGL Launcher installed, TicTacToy should automatically show your logs in the Server setup menu dropdown if you tick the Launcher Config Checkbox.
+      
       -Use the launch parameter -sessionlog when launching RVGL!
+      
       -The RVGL Multiplayer Lobby must be started before selecting the log file, as RVGL only creates the log file when a new Lobby is started.
       You may have to click "Refresh" to see it. The correct file for your lobby can be identified by the date/time in the file name.
+      
       -After the race, be sure to first select "Return to Lobby" in RVGL before getting the results in TicTacToy. RVGL only writes results to the
       session log file after leaving the current track and returning to the lobby.
       
