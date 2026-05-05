@@ -37,7 +37,7 @@ Standalone Release Version 2.1.3 Beta
     
       The parser searches the *session log files* created and updated by RVGL during a Multiplayer session.
       
-      Use the launch parameter -sessionlog when launching RVGL!
+      Use the launch parameter *-sessionlog* when launching RVGL!
       
       The RVGL Multiplayer Lobby must be started before selecting the log file, as RVGL only creates the log file when a new Lobby is started.
       
