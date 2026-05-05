@@ -6,7 +6,7 @@ Add-On for Re-Volt / RVGL by [HtzK]n3bulaR
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-Standalone Release Version 2.1.3 Beta
+Standalone Release Version 2.1.4 Beta
 ----------------------------------------------------------------------
 1. About
 
