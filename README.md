@@ -51,7 +51,7 @@ Standalone Release Version 2.1.3 Beta
       
       RVGL Launcher : User / AppData / Local / rvmm
             
-      With the RVGL Launcher installed, TicTacToy should automatically show your logs in the Server setup menu dropdown if you tick the Launcher Config Checkbox.
+      With the RVGL Launcher installed, TicTacToy should automatically show your logs in the Server setup menu dropdown if you tick the *Launcher Config Checkbox*.
             
       -After the race, be sure to first select "Return to Lobby" in RVGL before getting the results in TicTacToy. RVGL only writes results to the
       session log file after leaving the current track and returning to the lobby.
