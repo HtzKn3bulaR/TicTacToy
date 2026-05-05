@@ -34,9 +34,9 @@ Standalone Release Version 2.1.3 Beta
       https://play.unity.com/en/games/9b221d27-92b3-4e12-b986-f5a2446fc635/tic-tac-toy-multiplayer
       
     - **The game can automatically parse RVGL race results. Please note the following limitations:**
-      - The parser searches the session log files created and updated by RVGL during a Multiplayer session.
-      - Use the launch parameter -sessionlog when launching RVGL!
-      - The RVGL Multiplayer Lobby must be started before selecting the log file, as RVGL only creates the log file when a new Lobby is started.
+      The parser searches the session log files created and updated by RVGL during a Multiplayer session.
+      Use the launch parameter -sessionlog when launching RVGL!
+      The RVGL Multiplayer Lobby must be started before selecting the log file, as RVGL only creates the log file when a new Lobby is started.
       You may have to click "Refresh" in TicTacToy to see it when you started the Multiplayer Lobby with TicTacToy already opened.
       The correct file for your lobby can be identified by the date/time in the file name.
             
