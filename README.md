@@ -35,7 +35,7 @@ Standalone Release Version 2.1.3 Beta
       
     - **The game can automatically parse RVGL race results. Please note the following limitations:**
     
-      The parser searches the session log files created and updated by RVGL during a Multiplayer session.
+      The parser searches the *session log files* created and updated by RVGL during a Multiplayer session.
       
       Use the launch parameter -sessionlog when launching RVGL!
       
