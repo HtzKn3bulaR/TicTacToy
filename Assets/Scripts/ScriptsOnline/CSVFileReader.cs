@@ -82,7 +82,6 @@ public class CSVFileReader : MonoBehaviour
     {
         if (MainManager.selectedFilePath != null)
         {
-
             string[] lines = File.ReadAllLines(MainManager.selectedFilePath);
 
             if (CSVfileIsNew)

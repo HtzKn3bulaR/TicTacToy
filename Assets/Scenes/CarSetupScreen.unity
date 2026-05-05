@@ -408,6 +408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a52be0251866a954c9ee6a9f5c28bc12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameIsRemote: 0
 --- !u!4 &309580637
 Transform:
   m_ObjectHideFlags: 0
@@ -3997,6 +3998,12 @@ MonoBehaviour:
   helpScreen: {fileID: 902027007}
   goToNameSelectScreen: {fileID: 1028812669}
   carClassConfirm: {fileID: 631537349}
+  rookieNames: {fileID: 4900000, guid: d79f0e6efb72618468acac073d6332a7, type: 3}
+  amateurNames: {fileID: 4900000, guid: dc07d84d18f9b5f4683ab31d50eb8ffc, type: 3}
+  advancedNames: {fileID: 4900000, guid: 393d1e76c5b8be746986b45dd3212f45, type: 3}
+  semiProNames: {fileID: 4900000, guid: f383a0ecc3dd2a644b27003aa78ca3a2, type: 3}
+  proNames: {fileID: 4900000, guid: 82352fb4737dac8419fe4932c1b7fdff, type: 3}
+  superProNames: {fileID: 4900000, guid: 37cf8718a913c00469d0ff64c922ecb5, type: 3}
   carClasses:
   - Rookie
   - Amateur

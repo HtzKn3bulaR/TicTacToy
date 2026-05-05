@@ -17,6 +17,9 @@ public class GridGeneratorRemote : NetworkBehaviour
     [SerializeField] private Sprite starSymbol;
     public TextMeshProUGUI[] fieldText;
 
+    [SerializeField] private TextAsset stockTracks;
+    [SerializeField] private TextAsset standardTracks;
+
     [SerializeField] private TextMeshProUGUI waitingPanelMessage;
 
     [SerializeField] private TextMeshProUGUI joinCodeDisplay;
@@ -47,31 +50,20 @@ public class GridGeneratorRemote : NetworkBehaviour
     [SerializeField] Button carMenuToggleButton;
     [SerializeField] Button panelClose;
 
+    private List<FixedString32Bytes> temporaryList = new List<FixedString32Bytes>();
+
     public NetworkVariable<int> carsUnlocked = new NetworkVariable<int>(2);
     
-    private NetworkVariable<int> starField = new NetworkVariable<int>();
+    public NetworkVariable<int> starField = new NetworkVariable<int>();
 
     private NetworkVariable<int> rand = new NetworkVariable<int>();
     private NetworkVariable<int> rand2 = new NetworkVariable<int>();
     private NetworkVariable<int> rand3 = new NetworkVariable<int>();
 
-    NetworkList<FixedString32Bytes> tracksThisGame; 
+    NetworkList<FixedString32Bytes> tracksThisGame;
 
-    List<FixedString32Bytes> trackList = new List<FixedString32Bytes>
-
-    {
-        "School's Out 1",
-        "Museum 1","Toy World Aquatica: Redux","Ghost Town 1","Rooftops 1","Rooftops","Castle 1","HMS Invincible Redux","Aspenside",
-        "Ranch","Airport","Fairground 1","Port Limano 2","StadVolt","Toytanic 2","Casino RV","Supermarket 1","Biohazard Factory","Toys In The Hood 2",
-        "Toy World Mayhem","Smashride Circuit","RV Temple","Meltdown","Petro Volt","Botanical Garden ","Mysterious Toy-Volt Factory 1","Snowland 1","Home 2",
-        "Subway 2","School's Out 2","Moon Dawn","Radioactive Garden","Toy World 1","Holiday Camp California Ed","ToySoldierz",
-        "Santorini","Kadish Sprint","The Great Silence","Spa-Volt 1","Lunar","Skating Toys Redux","Museum EX","Library","Sakura","Hospital 2","Museum 3",
-        "Home 1","Rooftop Chase Redux","Hospital 1","Game Room 2","Venice","Quake!","Metro-Volt","urbanX","Toytanic 1","Snowy River","Toy World 3",
-        "Game Room 1","Botanical Garden EX","Helios","Route-77","Castle 2","Urban Sprint 1","Wonderful Skylands 1","Fairground 2",
-        "Supermarket 2","White Rose Chapel","Grisville","Spaceship","Images Of Giza: Redux","Toy World 2","Toys in The Hood 1","The Bunker","Spa-Volt 2",
-        "Medieval Redux","Port Limano 1","SBX Alpine","Jailhouse Rock","Ghost Town 2","Museum 2","Desolate District 1","Downtown 1","Downtown 2","Port Limano EX","Elementary 1","Elementary 2","Genghis Kastle","Swan Street",
-        "Spring Visit","Aquarium 1","Frostpeak","Galaxy World 1","Galaxy World 2","Office 1","Radio Kootwijk","s4","Crystal caves"
-    };
+    List<FixedString32Bytes> trackList = new List<FixedString32Bytes>();
+    
 
     List<T> GetUniqueRandomElements<T>(List<T> inputList, int count)
 
@@ -99,7 +91,12 @@ public class GridGeneratorRemote : NetworkBehaviour
     {
        Instance = this;
 
-       tracksThisGame = new NetworkList<FixedString32Bytes>();
+        trackList.AddRange(ReadTrackFile(stockTracks));
+        temporaryList.Clear();
+        trackList.AddRange(ReadTrackFile(standardTracks));
+        temporaryList.Clear();
+
+        tracksThisGame = new NetworkList<FixedString32Bytes>();
     }
 
     void Start()
@@ -110,6 +107,29 @@ public class GridGeneratorRemote : NetworkBehaviour
 
         CarSelectorRemote.OnServerSetupCompleted += ShowJoinCode;
     }
+
+    public List<FixedString32Bytes> ReadTrackFile(TextAsset trackFile)
+    {
+        string[] trackData = trackFile.text.Split(new string[] { "\n" }, StringSplitOptions.None);
+
+        int tableSize = trackData.Length;
+        Debug.Log("Table size " + tableSize);
+
+        for (int i = 0; i < tableSize; i++)
+        {
+            FixedString32Bytes nameTrimmed;
+
+            nameTrimmed = trackData[i].TrimEnd(new char[] { '\r', ' ' });
+            //nameTrimmed = nameTrimmed.TrimStart(new char[] { '\r', ' ' });                      
+
+            temporaryList.Add(nameTrimmed);
+
+        }
+
+        return temporaryList;
+    }
+
+
 
     private void ShowJoinCode(object sender, EventArgs e)
     {
@@ -259,6 +279,11 @@ public class GridGeneratorRemote : NetworkBehaviour
         Debug.Log("Star Field is " + starField.Value);
         gameManagerScript.fields[starField.Value].image.sprite = starSymbol;
         gameManagerScript.fieldText[starField.Value].text = "?";
+    }
+
+    public void RevealStarField()
+    {
+        gameManagerScript.fieldText[starField.Value].text = tracksThisGame[starField.Value].ToString();
     }
 
     

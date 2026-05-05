@@ -8123,6 +8123,8 @@ MonoBehaviour:
   carD: {fileID: 2102521771}
   jokerX: {fileID: 641090860}
   jokerO: {fileID: 1306794541}
+  stockTracks: {fileID: 4900000, guid: ff3e4ea6f71ea374482b2eee262352a8, type: 3}
+  standardTracks: {fileID: 4900000, guid: bfae9ec02e18f7c4a849329365f51fdf, type: 3}
   carPanel: {fileID: 768289684}
   carMenuToggleButton: {fileID: 1451769953}
   panelClose: {fileID: 1301810565}

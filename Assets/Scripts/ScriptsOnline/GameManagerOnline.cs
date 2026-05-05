@@ -58,9 +58,7 @@ public class GameManagerOnline : NetworkBehaviour
     public TextMeshProUGUI jokerP2;
 
     public event EventHandler<OnPlayerConnectedEventArgs> OnPlayerConnected;
-
-    public event EventHandler<OnPlayerConnectedEventArgs> OnJokerAcquired;
-
+       
     public static event Action OnRoundConcluded;
     public static event Action OnFieldSelected;
     public static event Action OnFieldTopLeftCornerSelected;
@@ -337,6 +335,11 @@ public class GameManagerOnline : NetworkBehaviour
     {        
         preRacePanel.SetActive(false);
         SetFieldInactive(fields[pendingField]);
+
+        if(pendingField == GridGeneratorRemote.Instance.starField.Value)
+        {
+            GridGeneratorRemote.Instance.RevealStarField();
+        }
 
         ShowHostWinnerPanelRpc(pendingField);
         blockPanel.SetActive(true);

@@ -61,6 +61,8 @@ public class Relay : MonoBehaviour
 
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
+            //NetworkManager.Singleton.GetComponent<UnityTransport>().UseWebSockets = true;
+
             NetworkManager.Singleton.StartClient();
 
 

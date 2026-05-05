@@ -24,6 +24,15 @@ public class CarSelectorRemote : NetworkBehaviour
     [SerializeField] Button carClassConfirm;
     List<string> activeList;
 
+    [SerializeField] private TextAsset rookieNames;
+    [SerializeField] private TextAsset amateurNames;
+    [SerializeField] private TextAsset advancedNames;
+    [SerializeField] private TextAsset semiProNames;
+    [SerializeField] private TextAsset proNames;
+    [SerializeField] private TextAsset superProNames;
+
+    public GameObject parserConfigPanel;
+
     public TextMeshProUGUI warningText;
 
     public NetworkVariable<FixedString32Bytes> className = new NetworkVariable<FixedString32Bytes>();
@@ -37,61 +46,7 @@ public class CarSelectorRemote : NetworkBehaviour
 
     [SerializeField] string[] carClasses = { "Rookie", "Amateur", "Advanced", "Semi-Pro", "Pro", "Super-Pro" };
 
-    List<string> rookieList = new List<string>
-
-    {
-        "Toukka 4x4","Starfire GT","Lancer","El Gekko","Condor GRV","Junky","Rouge","Get Air","BigVolt","Road Star","Sunset Light","Show-Off","Nimbus","Harvester","Rebound 4x4","Albatross GT",
-        "Updraft","Chubble","El Rapido","Vaanbus","Blobster","Col. Moss","Angus 400","Nesbitt","Hot Spot","Micro","Phat Slug","Hurricane","LR 64","Super Wheat","Dust Mite","High-Rod",
-        "Crazy Pat","Myrmech","Mr. Bedtime","Tesla","Funziona","Phat Trucker","Splat","Panorama","Ciagnik","Genghis Kar","Quaqa Turbo","Volken Turbo","HSF-1","Pipsqueak","Naranja Turbo","RC Phink","E-Razr"
-    };
-
-    List<string> amateurList = new List<string>
-
-    {
-        "RCBandit","Dr.Grudge","SprinterXL","CandyPebbles","Mouse","Evil Weasel","NY 54","Rotor","LA 54","Groovster","RVLoco","AMCOTC","BadBison","BaddRC","Baja Dash","Breadfast","Bumblebee","Eatium",
-        "Emilia","Exceed","Flatter 4V","Frograph","Fun Zone","Harmor","Honeybee","Hotknife","Ignit-9","Koin Karp","Kyarus","LMW","Locker","Madness","Manfred","Moby Trick","Mongoose","Muller GT","Nevermore","Nitro Crusher",
-        "Off Gear","Phantum","Power Cap","Queen Bee","Red Kermit","Reddlum","Reliance","RoadKing","Silvarooky","Smokie","StarCarbs","Strax","Tempest","Toy-Volt Towing","Triton","Ultima","UltraGamma","Vixen","WildRide","Chapman","Radscoop"
-
-    };
-
-    List<string> advancedList = new List<string>
-
-    {
-        "Le Pastel","Aquasonic","Urban Jungle","Spearhead","Pest Control","DRJ-61","R6 Turbo","Whiplash","Springtrap","Hammerhead","Frostbite","Panga TC","APC L-13","Sturm","Lithmus","Prizmer","Bertha Ballistics",
-        "Duck Sky","BossVolt","Raudy","Shocker","Romeo","Breaker","Drawall","Phenom","Frosted Delight","Grimlock","Recon MK1","Vibe Box","RC San","Rice Ball","Pole Poz","Fulon X","Matra XL","Alice","Wave Dancer","Junker",
-        "Cerveth","Aerozad","Bajaette","Panther","Swizz Cheezer","75C","Akagi Attacker","Aquamarina","Bendor","Donnie TC","Ember","Emperor","Fierro","Flower Power","Hyper XL","Llag Sat","Marauder","Micro Tache","Sarge","Twilight GT",
-        "JC 161"
-    };
-
-    List<string> semiProList = new List<string>
-
-    {
-        "Adeon","Zipper","Dual Signal","JG-7","Runner 2000","Sokudo","Dragoon","Serrate","BHV 1","Winger","Tribute","Acclaim GT","Victoria","Mambra","Max Attack","Jackal","Tri-Enter","Swede","Yuurei V8",
-        "Sasquatch","Arnoux","Danger","Quazar","Ancile","Riptor","Voltz XL","RC-Erra","Norwood","Aeromaster","Bushido RS","Pemto","Nitromare","Rothams Racing","Iron-Z","Locust","AMW","Big Load",
-        "Gravel Basher","Artifact","Cossie","LV 54","Karlington","Predator","RG1","Big Match Jim","Jet Astro","Blazar","CHC 305","Cobra Max","Fat Agnus","KC-3","Blaze V8","Chubba","Ducktail","Toy-World GT"
-        ,"Current","Ballista"
-
-    };
-
-    List<string> proList = new List<string>
-
-    {
-        "Toyeca","Chimera TC","Drome Champ","Purp XL","Humma","Puma","Cougar","Outlaw","Sunrise","Mid-Musc","Ryu","Ayrton SP","S13 Alltune","SNW 35","Prime Target","Keyakizaka",
-        "Visconti R","Indy B","Cintach","Wildstar","Artair","After Image","G3X","Panga","Velter Ultron","BajaVolt","Cherencov","Mean Streak","Patriot","Cerberus","Power Loader","RC Winglet","The Knight",
-        "BanKing","Black Widow","Duflame","Eaglet","Electric Sheep","EXE TC","Gust","Hydro Flame","Jet Spike","Karen","Maverick","N-Sharp","Proto Combo","Quinx","RC Bulldog","RVRC 20","RVXXL 5","Sandstorm",
-        "Shark Bite","Shinobi","Sir Gleam","Tizzoni","Yager","Sparker"
-
-    };
-
-    List<string> superProList = new List<string>
-
-    {
-        "Endo","Stinger","Elyta","Calcure","Prototype FX77","Saeger","FLIR","Gungnir","P4 Super","Napalm","La Rossa","Cambold R","Sylea","King Kaiju","Selsia Turbo","Komet","Quicksilver","Armand","Commandine"
-        ,"Starmac","Maxxas XLR8","XM250","Sentaro XL","Skarlet","AU-8","Revel","U.V.G.S.","Mudman","Dragheat","Reiser","Sterling F77","Wind Slicer","Rinne","Megalodon XL","Tesseract","Orbitron","Anaconda GT"
-        ,"Identity X","Voltrex","Yinisa","King Moloko","Orion","Slingshot","Daemmon","Horizenna","Sideswipe","Spectron","Exclaim GT Mk.2","FD-400","Golden Eye","Hanabira","Hemera","Hetgarde GT1","Madax GT"
-        ,"Nakajima","Nyx","Spedion","Hoshino","Nain","Alter","BLK"
-    };
-
+    
     List<T> GetUniqueRandomElements<T>(List<T> inputList, int count)
 
     {
@@ -122,8 +77,19 @@ public class CarSelectorRemote : NetworkBehaviour
         Instance = this;
 
         NetworkManager.Singleton.OnClientConnectedCallback += Singleton_OnClientConnectedCallback;
-        
+
     }
+
+    public void ToggleParserConfigPanel(bool state)
+    {
+        if (state == false)
+        {
+            parserConfigPanel.gameObject.SetActive(false);
+
+        }
+        else { parserConfigPanel.gameObject.SetActive(true); }
+    }
+
 
     private void Singleton_OnClientConnectedCallback(ulong obj)
     {
@@ -141,7 +107,7 @@ public class CarSelectorRemote : NetworkBehaviour
 
     public void CheckCarClassIsValid()
     {
-        if(classSelected == 9)
+        if (classSelected == 9)
         {
             warningText.gameObject.SetActive(true);
             return;
@@ -164,6 +130,26 @@ public class CarSelectorRemote : NetworkBehaviour
 
     }
 
+    public List<string> ReadCarList(TextAsset file)
+    {
+        List<string> temporaryCarList = new List<string>();
+
+        string[] temporaryData = file.text.Split(new string[] { "\n" }, StringSplitOptions.None);
+
+        int carCount = temporaryData.Length;
+
+        string nameTrimmed;
+
+        foreach (string s in temporaryData)
+        {
+            nameTrimmed = s.TrimEnd(new char[] { '\r', ' ' });
+            nameTrimmed = nameTrimmed.TrimStart(new char[] { '\r', ' ' });
+            temporaryCarList.Add(nameTrimmed);
+        }
+
+        return temporaryCarList;
+    }
+
     public void CarSelect()
 
 
@@ -172,27 +158,27 @@ public class CarSelectorRemote : NetworkBehaviour
 
         {
             case 0:
-                activeList = rookieList;
+                activeList = ReadCarList(rookieNames);
                 break;
 
             case 1:
-                activeList = amateurList;
+                activeList = ReadCarList(amateurNames);
                 break;
 
             case 2:
-                activeList = advancedList;
+                activeList = ReadCarList(advancedNames);
                 break;
 
             case 3:
-                activeList = semiProList;
+                activeList = ReadCarList(semiProNames);
                 break;
 
             case 4:
-                activeList = proList;
+                activeList = ReadCarList(proNames);
                 break;
 
             case 5:
-                activeList = superProList;
+                activeList = ReadCarList(superProNames);
                 break;
 
         }
