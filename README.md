@@ -50,6 +50,9 @@ Standalone Release Version 2.1.3 Beta
       
       -After the race, be sure to first select "Return to Lobby" in RVGL before getting the results in TicTacToy. RVGL only writes results to the
       session log file after leaving the current track and returning to the lobby.
+
+      -The parser is searching for identical player names in RVGL and TicTacToy for determining the round winner. Therefore, please use matching names in TicTacToy
+      and RVGL. The host can always manually override incorrectly identified race results.
       
   4. License
   
