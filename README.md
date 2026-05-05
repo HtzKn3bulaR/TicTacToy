@@ -35,9 +35,11 @@ Standalone Release Version 2.1.3 Beta
       
     - **The game can automatically parse RVGL race results. Please note the following limitations:**
       -The parser searches the session log files written by RVGL after a race has finished. These files are usually found in these locations:
-      
+            
       RVGL Windows Online Edition : RVGL main folder / profiles
+      
       RVGL Launcher : User / AppData / Local / rvmm
+      
       
       With the RVGL Launcher installed, TicTacToy should automatically show your logs in the Server setup menu dropdown if you tick the Launcher Config Checkbox.
       -Use the launch parameter -sessionlog when launching RVGL!
