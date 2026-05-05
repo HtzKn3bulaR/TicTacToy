@@ -39,7 +39,7 @@ Standalone Release Version 2.1.3 Beta
       
       Use the launch parameter *-sessionlog* when launching RVGL!
       
-      The RVGL Multiplayer Lobby must be started before selecting the log file, as RVGL only creates the log file when a new Lobby is started.
+      The RVGL Multiplayer Lobby must be started before selecting the log file in TicTacToy, as RVGL only creates the log file when a new Lobby is started.
       
       You may have to click "Refresh" in TicTacToy to see it when you started the Multiplayer Lobby with TicTacToy already opened.
       
