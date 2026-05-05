@@ -34,6 +34,7 @@ Standalone Release Version 2.1.3 Beta
       https://play.unity.com/en/games/9b221d27-92b3-4e12-b986-f5a2446fc635/tic-tac-toy-multiplayer
       
     - **The game can automatically parse RVGL race results. Please note the following limitations:**
+    
       The parser searches the session log files created and updated by RVGL during a Multiplayer session.
       
       Use the launch parameter -sessionlog when launching RVGL!
