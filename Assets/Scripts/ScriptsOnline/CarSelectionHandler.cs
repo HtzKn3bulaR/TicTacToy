@@ -33,12 +33,15 @@ public class CarSelectionHandler : NetworkBehaviour
     public NetworkVariable<int> carIndexSelectedByActivePlayer = new NetworkVariable<int>(9);
     public NetworkVariable<int> carIndexSelectedBySecondPlayer = new NetworkVariable<int>(8);
 
+    public static event Action OnRacingStart;
+
     // Start is called before the first frame update
     void Start()
     {
 
         instance = this;
         GameManagerOnline.Instance.selectedField.OnValueChanged += OfferCarSelectionOptions;
+        GameManagerOnline.OnFieldTopLeftCornerSelected += GameManagerOnline_OnFieldTopLeftCornerSelectedRpc;
 
         carIndexSelectedByActivePlayer.OnValueChanged += SetUnusedCarButtonsInactiveRpc;
         carIndexSelectedByActivePlayer.OnValueChanged += CarSelectionInactivePlayerRpc;
@@ -46,9 +49,14 @@ public class CarSelectionHandler : NetworkBehaviour
         carIndexSelectedBySecondPlayer.OnValueChanged += ShowInactivePlayerSelectionRpc;
 
         GameManagerOnline.OnRoundConcluded += GameManagerOnline_OnRoundConcluded;
-                
+                        
     }
-           
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void GameManagerOnline_OnFieldTopLeftCornerSelectedRpc()
+    {
+        OfferCarSelectionOptions(9, 0);
+    }
 
     public void ShowFlashActive()
     {
@@ -136,7 +144,12 @@ public class CarSelectionHandler : NetworkBehaviour
                 selectionButtonsO[currentValue].interactable = false;
             }
         }
+
+        OnRacingStart?.Invoke();
+        carSelectionPanel.SetActive(false);
     }
+
+
 
     [Rpc(SendTo.ClientsAndHost)]
     private void CarSelectionInactivePlayerRpc(int previousValue, int newValue)

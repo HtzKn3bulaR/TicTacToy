@@ -5,6 +5,7 @@ using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -62,6 +63,8 @@ public class GameManagerOnline : NetworkBehaviour
 
     public static event Action OnRoundConcluded;
     public static event Action OnFieldSelected;
+    public static event Action OnFieldTopLeftCornerSelected;
+   
         
 
     public class OnPlayerConnectedEventArgs : EventArgs
@@ -100,6 +103,7 @@ public class GameManagerOnline : NetworkBehaviour
         
         OnFieldSelected += GameManagerOnline_OnFieldSelected;
         selectedField.OnValueChanged += MakeSelectedFieldNonInteractableRpc;
+        OnFieldTopLeftCornerSelected += GameManagerOnline_OnFieldTopLeftCornerSelected;
         roundWinner.OnValueChanged += SetWinnerSymbol;
         gameEnded.OnValueChanged += ShowEndText;
                         
@@ -108,6 +112,16 @@ public class GameManagerOnline : NetworkBehaviour
         StopThemeAudio();
 
                        
+    }
+
+    public void ShowPostRacePanel()
+    {
+        postRacePanel.gameObject.SetActive(true);
+    }
+
+    private void GameManagerOnline_OnFieldTopLeftCornerSelected()
+    {
+        MakeSelectedFieldNonInteractableRpc(9, 0);
     }
 
     private void ShowEndText(bool previousValue, bool newValue)
@@ -144,6 +158,11 @@ public class GameManagerOnline : NetworkBehaviour
     {
         selectedField.Value = fieldIndex;
         Debug.Log("Server set value to field number " + selectedField.Value);
+
+        if (fieldIndex == 0)
+        {
+            OnFieldTopLeftCornerSelected?.Invoke();
+        }
     }
 
     
@@ -190,7 +209,7 @@ public class GameManagerOnline : NetworkBehaviour
             OnPlayerConnected?.Invoke(this, new OnPlayerConnectedEventArgs { playerType = localPlayerType });
             serverPlayerName.Value = MainManager.multiplayerName;
 
-            CarSelectorRemote.Instance.CarSelectionHost();
+            //CarSelectorRemote.Instance.CarSelectionHost();
             
             NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_OnClientConnectedCallback;
             
@@ -329,7 +348,7 @@ public class GameManagerOnline : NetworkBehaviour
     {
         pendingField = field;
 
-        postRacePanel.SetActive(true);
+        //postRacePanel.SetActive(true);
 
         OnFieldSelected?.Invoke();
     }
@@ -353,7 +372,6 @@ public class GameManagerOnline : NetworkBehaviour
 
     
     public void SetRaceWinner(int winnerIndex)
-
     {
         switch(winnerIndex)
         {

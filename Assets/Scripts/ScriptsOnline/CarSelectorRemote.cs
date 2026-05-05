@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
 using Unity.Collections;
+using System;
 
 public class CarSelectorRemote : NetworkBehaviour
 {
@@ -19,9 +20,11 @@ public class CarSelectorRemote : NetworkBehaviour
     public TextMeshProUGUI car4Text;
     public GameObject carClassMenu;
     public GameObject carTable;
-    private int classSelected;
+    private int classSelected = 9;
     [SerializeField] Button carClassConfirm;
     List<string> activeList;
+
+    public TextMeshProUGUI warningText;
 
     public NetworkVariable<FixedString32Bytes> className = new NetworkVariable<FixedString32Bytes>();
 
@@ -29,6 +32,8 @@ public class CarSelectorRemote : NetworkBehaviour
     public NetworkVariable<FixedString32Bytes> nameCar2 = new NetworkVariable<FixedString32Bytes>();
     public NetworkVariable<FixedString32Bytes> nameCar3 = new NetworkVariable<FixedString32Bytes>();
     public NetworkVariable<FixedString32Bytes> nameCar4 = new NetworkVariable<FixedString32Bytes>();
+
+    public static EventHandler OnServerSetupCompleted;
 
     [SerializeField] string[] carClasses = { "Rookie", "Amateur", "Advanced", "Semi-Pro", "Pro", "Super-Pro" };
 
@@ -99,11 +104,11 @@ public class CarSelectorRemote : NetworkBehaviour
     void Shuffle<T>(List<T> inputList)
 
     {
-        for (int i = 0; i < inputList.Count - 1; i++)
+        for (int i = 0; i < inputList.Count; i++)
 
         {
             T temp = inputList[i];
-            int rand = Random.Range(i, inputList.Count);
+            int rand = UnityEngine.Random.Range(i, inputList.Count);
             inputList[i] = inputList[rand];
             inputList[rand] = temp;
         }
@@ -132,6 +137,20 @@ public class CarSelectorRemote : NetworkBehaviour
     void Update()
     {
 
+    }
+
+    public void CheckCarClassIsValid()
+    {
+        if(classSelected == 9)
+        {
+            warningText.gameObject.SetActive(true);
+            return;
+        }
+
+        else
+        {
+            ConcludeCarSelection();
+        }
     }
 
     public void ClassSelect()
@@ -231,6 +250,8 @@ public class CarSelectorRemote : NetworkBehaviour
     {
         carTable.gameObject.SetActive(false);
         carClassMenu.gameObject.SetActive(false);
+
+        OnServerSetupCompleted?.Invoke(this, EventArgs.Empty);
     }
 
     public void HideCarPanel()

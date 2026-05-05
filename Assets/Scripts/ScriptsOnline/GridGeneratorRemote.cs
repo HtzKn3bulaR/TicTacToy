@@ -18,6 +18,12 @@ public class GridGeneratorRemote : NetworkBehaviour
     public TextMeshProUGUI[] fieldText;
 
     [SerializeField] private TextMeshProUGUI waitingPanelMessage;
+
+    [SerializeField] private TextMeshProUGUI joinCodeDisplay;
+    [SerializeField] private GameObject joinCodePrompt;
+    [SerializeField] private TextMeshProUGUI roomCodeEntry;
+    [SerializeField] private Button joinConfirm;
+
     [SerializeField] private Button readyButton;
     [SerializeField] private Button startHostButton;
     [SerializeField] private Button startClientButton;
@@ -101,6 +107,14 @@ public class GridGeneratorRemote : NetworkBehaviour
         NetworkManager.Singleton.OnClientConnectedCallback += Singleton_OnClientConnectedCallback;
 
         carsUnlocked.OnValueChanged += OnCarsUnlockedChangedRpc;
+
+        CarSelectorRemote.OnServerSetupCompleted += ShowJoinCode;
+    }
+
+    private void ShowJoinCode(object sender, EventArgs e)
+    {
+        joinCodeDisplay.gameObject.SetActive(true);
+        joinCodeDisplay.text = "Room Code: " + MainManager.joinCode;
     }
 
     [Rpc(SendTo.ClientsAndHost)]
@@ -141,24 +155,37 @@ public class GridGeneratorRemote : NetworkBehaviour
         }
     }
 
-
-    public void StartHost()
+    public void PromptForRoomCode()
     {
-        NetworkManager.Singleton.StartHost();
-        waitingPanelMessage.text = "Waiting for Client connection...";
-        startHostButton.gameObject.SetActive(false);
+        joinCodePrompt.gameObject.SetActive(true);
         startClientButton.gameObject.SetActive(false);
-        
-        
+        startHostButton.gameObject.SetActive(false);
     }
 
+    public void ShowJoinConfirmButton()
+    {
+        joinConfirm.gameObject.SetActive(true);
+    }
+
+
+    public void AssignHost()
+    {
+        Relay.Instance.CreateRelay();
+
+        waitingPanelMessage.text = "Waiting for Client connection...";
+        startHostButton.gameObject.SetActive(false);
+        startClientButton.gameObject.SetActive(false);               
+    }
+
+    
     public void StartClient()
     {
-        NetworkManager.Singleton.StartClient();
+        Relay.Instance.JoinRelay(MainManager.clientJoinCode);
+
         waitingPanelMessage.text = "Connected to Host. Click Ready to start.";
-        startHostButton.gameObject.SetActive(false);
-        startClientButton.gameObject.SetActive(false);
+        joinCodePrompt.gameObject.SetActive(false);
         
+                
     }
 
     public void HideWaitingPanel()

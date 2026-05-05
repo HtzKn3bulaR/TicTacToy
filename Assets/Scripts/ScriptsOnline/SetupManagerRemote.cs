@@ -22,8 +22,14 @@ public class SetupManagerRemote : NetworkBehaviour
 
     public void MultiplayerNameAssign()
 
-    {        
-            MainManager.multiplayerName = playerNames.text;
+    {
+        string entry = playerNames.text;
+        
+        entry = entry.TrimEnd(new char[] { '\r', ' ' });
+        entry = entry.TrimStart(new char[] { '\r', ' ' });
+        entry = entry.ToUpper();
+        
+        MainManager.multiplayerName = entry;
 
             Debug.Log("Player  name is " + MainManager.multiplayerName);
 

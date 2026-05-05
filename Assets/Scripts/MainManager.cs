@@ -9,7 +9,7 @@ public class MainManager : MonoBehaviour
     public bool gameIsRemote = false;
 
     public static string[] playerName = { "Player 1", "Player 2" };
-    public static string multiplayerName = "";
+    public static string multiplayerName;
 
     public static int roundsWonP1 = 0;
     public static int roundsWonP2 = 0;
@@ -25,6 +25,13 @@ public class MainManager : MonoBehaviour
 
     public static bool xJokerWasUsed = false;
     public static bool oJokerWasUsed = false;
+
+    public static string selectedFilePath;
+
+    public static string joinCode;
+    public static string clientJoinCode;
+
+    public static bool gameUsingLogs = false;
     
     private void Awake()
     {
