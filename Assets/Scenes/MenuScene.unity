@@ -2591,11 +2591,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'When the Star is picked, the player can choose any track they would like
-    to race this round. It could be a Bonus track, a Circuit track etc.
-
-    Choose
-    your own House Rule for this case.'
+  m_text: The track hidden behind the Star Field is only revealed after it has been
+    selected by one of the players.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: edd1e801fa7a5144682285bf9dc182db, type: 2}
   m_sharedMaterial: {fileID: 934093763233016171, guid: edd1e801fa7a5144682285bf9dc182db, type: 2}

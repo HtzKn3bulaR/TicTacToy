@@ -55,8 +55,23 @@ public class RacingManager : NetworkBehaviour
         CalculateLocalPlayerNameChecksum();
     }
 
-    public void SetLocalCarDefeated(FixedString32Bytes previousValue, FixedString32Bytes newValue)
+    [Rpc(SendTo.Server)]
+    public void ResetLeaderboardWinnerRpc()
     {
+        leaderboardWinner.Value = GameManagerOnline.PlayerType.None;
+
+        carWinner.Value = "unknown".ToSafeString();
+        carDefeated.Value = "unknown".ToSafeString();
+
+        Debug.Log("Winner Car Reset to " + carWinner.Value);
+        Debug.Log("Defeated Car Reset to " + carDefeated.Value);
+    }
+
+    public void SetLocalCarDefeated(FixedString32Bytes previousValue, FixedString32Bytes newValue)
+    {        
+        if (newValue == "unknown".ToSafeString())
+        { return; }
+
         Debug.Log("Event Invoked , with new value " + newValue);
         localCarWinner = newValue.ToSafeString();
 
@@ -65,6 +80,9 @@ public class RacingManager : NetworkBehaviour
 
     public void SetLocalCarWinner(FixedString32Bytes previousValue, FixedString32Bytes newValue)
     {
+        if (newValue == "unknown".ToSafeString())
+        { return; }
+
         Debug.Log("Event Invoked , with new value " + newValue);
         localCarDefeated = newValue.ToSafeString();
     }
@@ -99,7 +117,9 @@ public class RacingManager : NetworkBehaviour
     private void CarSelectionHandler_OnRacingStart()
     {
         ShowRacingPanel();
+                
     }
+        
 
     // Update is called once per frame
     void Update()
@@ -131,14 +151,7 @@ public class RacingManager : NetworkBehaviour
 
         ResetLeaderboardWinnerRpc();
     }
-
-    
-
-    [Rpc(SendTo.Server)]
-    public void ResetLeaderboardWinnerRpc()
-    {
-        leaderboardWinner.Value = GameManagerOnline.PlayerType.None;
-    }
+       
 
     
     public void GetResultLists()
@@ -216,6 +229,7 @@ public class RacingManager : NetworkBehaviour
         GameManagerOnline.Instance.SetRaceWinner(winnerIndex);
 
         CSVFileReader.Instance.MoveCursorPosAfterSuccessfulRead();
+
     }
 
     [Rpc(SendTo.Server)]
